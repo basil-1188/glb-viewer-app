@@ -10,8 +10,11 @@ function App() {
 
   useEffect(() => {
     axios.get('http://localhost:5000/api/models')
-      .then(response => setModels(response.data))
-      .catch(error => console.log('Error fetching models:', error));
+      .then(response => {
+        console.log('Fetched models:', response.data);
+        setModels(response.data);
+      })
+      .catch(error => console.error('Error fetching models:', error));
   }, []);
 
   return (
@@ -33,6 +36,7 @@ function App() {
           <h1 className="text-3xl font-bold mb-4 text-center">3D Model Viewer</h1>
           <Dashboard setModels={setModels} />
           <ModelSelector models={models} setSelectedModel={setSelectedModel} />
+          {models.length === 0 && <p className="text-center text-gray-500">No models available</p>}
         </div>
       )}
     </div>
